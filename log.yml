@@ -1,0 +1,17 @@
+Project: Silk
+Description: A reference implementation to the HCLAN language in C
+Author: M.V.Harish Kumar
+Date Started: 17 January, 2024
+Note : |
+  This log is written as a way to track the progress of the project.
+  Since this project takes a very long time to complete, logging the progress of
+  this project is helpful when developing later.
+
+  This reference implementation is written in C, in accordance with the clox language.
+
+---
+Day: 1
+Date: 17-01-2024
+Level: 14
+Log:
+  - Initialized project
