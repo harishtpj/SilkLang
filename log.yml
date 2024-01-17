@@ -9,9 +9,19 @@ Note : |
 
   This reference implementation is written in C, in accordance with the clox language.
 
+Development workflow: |
+  Since the documentation for the Silk language is not yet fully completed(as of writing),
+  the development workflow of the project should be as follows:
+
+    - Create documentation for the implemented part of language.
+    - Implement that part of the language.
+    - If any errors, or bugs, create an issue until the problem is fixed.
+    - Make sure that the documentation is in accordance with the implementation.
+
 ---
 Day: 1
 Date: 17-01-2024
-Level: 14
+Level: null
 Log:
   - Initialized project
+  - Initialized document

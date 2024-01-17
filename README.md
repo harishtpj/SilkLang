@@ -37,7 +37,7 @@ HCLAN is interesting!
 ```
 
 # Support
-If you've any questions regarding this project, please check our [documentation](https://harish-kumar.gitbook.io/hclan-docs/) or file an [issue](https://github.com/harishtpj/SilkLang/issues/new).
+If you've any questions regarding this project, please check our [documentation](https://harish-kumar.gitbook.io/silklang-docs/) or file an [issue](https://github.com/harishtpj/SilkLang/issues/new).
 
 # Contributing
 Contributions are welcome, To contribute please refer to details [here](https://github.com/harishtpj/SilkLang/blob/master/CONTRIBUTING.md).
