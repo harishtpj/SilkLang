@@ -1,4 +1,5 @@
 # Makefile program to build SilkLang project
+# This makefile is written with accordance to the nmake.exe
 CFLAGS = /nologo /EHsc
 SRC_DIR = src
 BIN_DIR = bin

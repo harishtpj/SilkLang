@@ -25,3 +25,11 @@ Level: null
 Log:
   - Initialized project
   - Initialized document
+
+---
+Day: 2
+Date: 02-02-2024
+Level: [14]
+Log:
+  - Created a basic skeleton for the Bytecode Interpreter
+  - Added support for storing 2^24 constants for a chunk
