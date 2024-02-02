@@ -29,7 +29,10 @@ Log:
 ---
 Day: 2
 Date: 02-02-2024
-Level: [14]
+Level: [14, 15]
 Log:
   - Created a basic skeleton for the Bytecode Interpreter
   - Added support for storing 2^24 constants for a chunk
+  - Added a new VM for code execution
+  - Added support for Modulo and Power operations
+  - Added support for processing Long Constant types
