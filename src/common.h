@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 // Definition of Flags
+#define DEBUG_PRINT_CODE
 #define DEBUG_TRACE_EXEC
 
 // Some Important Constants for version and copyright info

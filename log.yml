@@ -38,3 +38,12 @@ Log:
   - Added support for processing Long Constant types
   - Added scanner and compiler interfaces with support for recognizing all HCLAN tokens
   - Added simple frontend
+
+---
+Day: 3
+Date: 03-02-2024
+Level: [17]
+Log:
+  - Added a functional Pratt expr parser
+  - Tweaked the code to support long constant types
+  - Added temporary support for parsing right associative power operator
