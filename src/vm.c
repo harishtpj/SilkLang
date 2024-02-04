@@ -2,9 +2,13 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
+
 #include "common.h"
 #include "compiler.h"
 #include "debug.h"
+#include "object.h"
+#include "memory.h"
 #include "vm.h"
 
 HVM vm;
@@ -28,10 +32,11 @@ static void runtimeError(const char* format, ...) {
 
 void initVM() {
     resetStack();
+    vm.objects = NULL;
 }
 
 void freeVM() {
-
+    freeObjects();
 }
 
 void push(Value value) {
@@ -50,6 +55,30 @@ static Value peek(int distance) {
 
 static bool isFalsey(Value value) {
     return IS_NULL(value) || (IS_BOOL(value) && !AS_BOOL(value));
+}
+
+static void concatenate() {
+    ObjStr* b = AS_STR(pop());
+    ObjStr* a = AS_STR(pop());
+
+    int length = a->length + b->length;
+    char* chars = ALLOCATE(char, length + 1);
+    memcpy(chars, a->chars, a->length);
+    memcpy(chars + a->length, b->chars, b->length);
+    chars[length] = '\0';
+
+    ObjStr* result = takeString(chars, length);
+    push(OBJ_VAL(result));
+}
+
+char *repeatStr (char *str, size_t count) {
+    if (count == 0) return "";
+    char* ret = ALLOCATE(char, strlen(str) * count + 1);
+    strcpy(ret, str);
+    while (--count > 0) {
+        strcat(ret, str);
+    }
+    return ret;
 }
 
 static InterpretResult run() {
@@ -116,9 +145,51 @@ static InterpretResult run() {
         }
 
 
-        case OP_ADD:      BINARY_OP(NUMBER_VAL, +);     break;
+        case OP_ADD: {
+            if (IS_STR(peek(0)) && IS_STR(peek(1))) {
+                concatenate();
+            } else if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1))) {
+                double b = AS_NUMBER(pop());
+                double a = AS_NUMBER(pop());
+                push(NUMBER_VAL(a + b));
+            } else {
+                runtimeError("Operands must be two numbers or two strings.");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }
+
+        case OP_MUL: {
+            if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1))) {
+                double b = AS_NUMBER(pop());
+                double a = AS_NUMBER(pop());
+                push(NUMBER_VAL(a * b));
+
+            } else if (IS_STR(peek(0)) && IS_NUMBER(peek(1))) {
+                ObjStr* b = AS_STR(pop());
+                int a = AS_NUMBER(pop());
+
+                int length = b->length * a;
+                ObjStr* result = takeString(repeatStr(b->chars, a), length);
+                push(OBJ_VAL(result));
+
+            } else if (IS_NUMBER(peek(0)) && IS_STR(peek(1))) {
+                int b = AS_NUMBER(pop());
+                ObjStr* a = AS_STR(pop());
+
+                int length = a->length * b;
+                ObjStr* result = takeString(repeatStr(a->chars, b), length);
+                push(OBJ_VAL(result));
+
+            } else {
+                runtimeError("Operands must be two numbers or either number and string.");
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            break;
+        }
+
+
         case OP_SUB:      BINARY_OP(NUMBER_VAL, -);     break;
-        case OP_MUL:      BINARY_OP(NUMBER_VAL, *);     break;
         case OP_DIV:      BINARY_OP(NUMBER_VAL, /);     break;
         case OP_POW:      BINARY_FUN(NUMBER_VAL, pow);  break;
         case OP_MOD:      BINARY_FUN(NUMBER_VAL, fmod); break;
