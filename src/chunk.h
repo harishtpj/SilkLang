@@ -21,6 +21,12 @@ typedef enum {
     OP_EQUAL,
     OP_GREATER,
     OP_LESS,
+    OP_PRINT,
+    OP_PRINT_NL,
+    OP_POP,
+    OP_GET_GLOBAL,
+    OP_DEF_GLOBAL,
+    OP_SET_GLOBAL,
     OP_RET,
 } OpCode;
 
@@ -36,6 +42,6 @@ void initChunk(Chunk* chunk);
 void freeChunk(Chunk* chunk);
 void writeChunk(Chunk* chunk, uint8_t byte, int line);
 int addConstant(Chunk* chunk, Value value);
-void writeConstant(Chunk* chunk, Value value, int line);
+uint8_t writeConstant(Chunk* chunk, Value value, int line);
 
 #endif

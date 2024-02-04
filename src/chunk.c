@@ -40,7 +40,7 @@ int addConstant(Chunk* chunk, Value value) {
 }
 
 // A More effective implementation of addConstant fn
-void writeConstant(Chunk* chunk, Value value, int line) {
+uint8_t writeConstant(Chunk* chunk, Value value, int line) {
     int index = addConstant(chunk, value);
     if (index < 256) {
         writeChunk(chunk, OP_CONST, line);
@@ -51,5 +51,5 @@ void writeConstant(Chunk* chunk, Value value, int line) {
         writeChunk(chunk, (uint32_t)((index >> 8) & 0xff), line);
         writeChunk(chunk, (uint32_t)((index >> 16) & 0xff), line);
     }
-    
+    return (uint8_t)index;
 }

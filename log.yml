@@ -51,7 +51,7 @@ Log:
 ---
 Day: 4
 Date: 04-02-2024
-Level: [18, 19, 20]
+Level: [18, 19, 20, 21]
 Log:
   - Changed the default compiler from MSVC to TCC
   - Changed the Makefile to support it
@@ -60,3 +60,5 @@ Log:
   - Added support for strings and its operation(concat, repeat)
   - Included (a minimal) GC implementation
   - Added a hash table implementation
+  - BUG:Added makeConstant function with support for long consts
+  - Added support for global variables and statements

@@ -26,7 +26,7 @@ static Entry* findEntry(Entry* entries, int capacity, ObjStr* key) {
     while (true) {
         Entry* entry = &entries[index];
         if (entry->key == NULL) {
-            if (IS_NIL(entry->value)) {
+            if (IS_NULL(entry->value)) {
                 // Empty entry.
                 return tombstone != NULL ? tombstone : entry;
             } else {
