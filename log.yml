@@ -51,7 +51,7 @@ Log:
 ---
 Day: 4
 Date: 04-02-2024
-Level: [18, 19]
+Level: [18, 19, 20]
 Log:
   - Changed the default compiler from MSVC to TCC
   - Changed the Makefile to support it
@@ -59,3 +59,4 @@ Log:
   - Added support for basic immutable types (bool, number, null)
   - Added support for strings and its operation(concat, repeat)
   - Included (a minimal) GC implementation
+  - Added a hash table implementation
