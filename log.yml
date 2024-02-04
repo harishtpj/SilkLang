@@ -47,3 +47,13 @@ Log:
   - Added a functional Pratt expr parser
   - Tweaked the code to support long constant types
   - Added temporary support for parsing right associative power operator
+
+---
+Day: 4
+Date: 04-02-2024
+Level: [18]
+Log:
+  - Changed the default compiler from MSVC to TCC
+  - Changed the Makefile to support it
+  - BUG:Corrcted precedence of the power operator
+  - Added support for basic immutable types (bool, number, null)

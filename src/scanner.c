@@ -176,7 +176,7 @@ static TokenType identifierType() {
               }
             }
             break;
-        case 't': return checkKeyword(1, 4, "rue", TOKEN_TRUE);
+        case 't': return checkKeyword(1, 3, "rue", TOKEN_TRUE);
         case 'w': return checkKeyword(1, 4, "hile", TOKEN_WHILE);
     }
     return TOKEN_IDENTIFIER;

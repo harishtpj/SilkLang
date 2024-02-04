@@ -7,13 +7,20 @@
 typedef enum {
     OP_CONST,
     OP_LCONST, // 24-bit constant implementation
+    OP_NULL,
+    OP_TRUE,
+    OP_FALSE,
     OP_ADD,
     OP_SUB,
     OP_MUL,
     OP_DIV,
+    OP_NOT,
     OP_MOD,
     OP_POW,
     OP_NEGATE,
+    OP_EQUAL,
+    OP_GREATER,
+    OP_LESS,
     OP_RET,
 } OpCode;
 
