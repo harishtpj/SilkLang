@@ -20,18 +20,22 @@ statement       : exprStmt
                 | returnStmt
                 | whileStmt
                 | importStmt
+                | breakStmt
+                | continueStmt
                 | block ;
 
 exprStmt        : expression ';' ;
-forStmt         : 'for' '(' ( varDecl | exprStmt | ';' )
+forStmt         : 'for'  ( varDecl | exprStmt | ';' )
                            expression? ';'
-                           expression? ')' statement ;
+                           expression? block ;
 ifStmt          : 'if'  expression block ( 'else' block )? ;
 loopStmt        : 'loop' statement ;
 printStmt       : 'print' expression ';' ;
 returnStmt      : 'return' expression? ';' ;
 whileStmt       : 'while'  expression  block ;
 importStmt      : 'import' ('std')? STRING;
+breakStmt       : 'break' ';' ;
+continueStmt    : 'continue' ';' ;
 block           : '{' declaration* '}' ;
 
 
@@ -51,7 +55,7 @@ factor          : unary ( ( '^' | '/' | '*' ) unary )* ;
 
 unary           : ( '!' | '-' ) unary | call ;
 call            : primary ( '(' arguments? ')' | '.' IDENTIFIER )* ;
-primary         : 'true' | 'false' | 'null' | 'self' | 'break' | 'continue'
+primary         : 'true' | 'false' | 'null' | 'self' |
                 | NUMBER | STRING | IDENTIFIER | '(' expression ')'
                 | 'super' '.' IDENTIFIER ;
 

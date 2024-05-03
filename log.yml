@@ -79,3 +79,4 @@ Level: [22]
 Log:
   - Added support for ternary if Expression operator
   - Added support for both single and double quotes
+  - Added while and for loops

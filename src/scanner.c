@@ -146,6 +146,7 @@ static TokenType identifierType() {
               switch (scanner.start[1]) {
                 case 'f': return checkKeyword(2, 0, "", TOKEN_IF);
                 case 'm': return checkKeyword(2, 4, "port", TOKEN_IMPORT);
+                //case 'n': return checkKeyword(2, 0, "", TOKEN_IN);
               }
             }
             break;
@@ -153,7 +154,7 @@ static TokenType identifierType() {
             if (scanner.current - scanner.start > 1) {
               switch (scanner.start[1]) {
                 case 'e': return checkKeyword(2, 1, "t", TOKEN_LET);
-                case 'o': return checkKeyword(2, 3, "op", TOKEN_LOOP);
+                case 'o': return checkKeyword(2, 2, "op", TOKEN_LOOP);
               }
             }
             break;
@@ -223,15 +224,24 @@ Token scanToken() {
         case '}': return makeToken(TOKEN_RIGHT_BRACE);
         case ';': return makeToken(TOKEN_SEMICOLON);
         case ',': return makeToken(TOKEN_COMMA);
-        case '.': return makeToken(TOKEN_DOT);
-        case '-': return makeToken(TOKEN_MINUS);
-        case '+': return makeToken(TOKEN_PLUS);
-        case '/': return makeToken(TOKEN_SLASH);
-        case '*': return makeToken(TOKEN_STAR);
-        case '^': return makeToken(TOKEN_CARET);
-        case '%': return makeToken(TOKEN_PERCENT);
         case '=': return makeToken(TOKEN_EQUAL);
 
+        case '+':
+            return makeToken(match('+') ? TOKEN_PLUS_PLUS : 
+                             match('=') ? TOKEN_PLUS_EQUAL : TOKEN_PLUS);
+        case '-':
+            return makeToken(match('-') ? TOKEN_MINUS_MINUS :   
+                             match('=') ? TOKEN_MINUS_EQUAL : TOKEN_MINUS);
+        case '*':
+            return makeToken(match('=') ? TOKEN_STAR_EQUAL : TOKEN_STAR);
+        case '/':    
+            return makeToken(match('=') ? TOKEN_SLASH_EQUAL : TOKEN_SLASH);
+        case '^':
+            return makeToken(match('=') ? TOKEN_CARET_EQUAL : TOKEN_CARET);
+        case '%':
+            return makeToken(match('=') ? TOKEN_PERCENT_EQUAL : TOKEN_PERCENT);
+        case '.':
+            return makeToken(match('.') ? TOKEN_DOT_DOT : TOKEN_DOT);
         case '!':
             return makeToken(match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
         case ':':
