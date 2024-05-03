@@ -8,6 +8,7 @@
 // Definition of Flags
 #define DEBUG_PRINT_CODE
 //#define DEBUG_TRACE_EXEC
+#define UINT8_COUNT (UINT8_MAX + 1)
 
 // Some Important Constants for version and copyright info
 #define SILK_VERSION_MAJOR 1

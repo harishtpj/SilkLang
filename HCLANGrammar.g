@@ -17,7 +17,6 @@ statement       : exprStmt
                 | ifStmt
                 | loopStmt
                 | printStmt
-                | printLnStmt
                 | returnStmt
                 | whileStmt
                 | importStmt
@@ -27,12 +26,11 @@ exprStmt        : expression ';' ;
 forStmt         : 'for' '(' ( varDecl | exprStmt | ';' )
                            expression? ';'
                            expression? ')' statement ;
-ifStmt          : 'if'  expression statement ( 'else' statement )? ;
+ifStmt          : 'if'  expression block ( 'else' block )? ;
 loopStmt        : 'loop' statement ;
 printStmt       : 'print' expression ';' ;
-printLnStmt     : 'println' expression ';' ;
 returnStmt      : 'return' expression? ';' ;
-whileStmt       : 'while'  expression  statement ;
+whileStmt       : 'while'  expression  block ;
 importStmt      : 'import' ('std')? STRING;
 block           : '{' declaration* '}' ;
 
@@ -41,8 +39,9 @@ block           : '{' declaration* '}' ;
 expression      : assignment ;
 
 assignment      : ( call '.' )? IDENTIFIER ':=' assignment
-                | logic_or ;
+                | if_expr ;
 
+if_expr         : logic_or ( 'if' logic_or 'else' logic_or)*;
 logic_or        : logic_and ( 'or' logic_and )* ;
 logic_and       : equality ( 'and' equality )* ;
 equality        : comparison ( ( '!=' | '=' ) comparison )* ;

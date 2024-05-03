@@ -159,13 +159,7 @@ static TokenType identifierType() {
             break;
         case 'n': return checkKeyword(1, 3, "ull", TOKEN_NULL);
         case 'o': return checkKeyword(1, 1, "r", TOKEN_OR);
-        case 'p': {
-            TokenType init = checkKeyword(1, 6, "rintln", TOKEN_PRINTLN);
-            if (init == TOKEN_IDENTIFIER) 
-              return checkKeyword(1, 4, "rint", TOKEN_PRINT);
-            return init;
-        
-        }
+        case 'p': return checkKeyword(1, 4, "rint", TOKEN_PRINT);
         case 'r': return checkKeyword(1, 5, "eturn", TOKEN_RETURN);
         case 's':
             if (scanner.current - scanner.start > 1) {
@@ -199,8 +193,8 @@ static Token number() {
     return makeToken(TOKEN_NUMBER);
 }
 
-static Token string() {
-    while (peek() != '"' && !isAtEnd()) {
+static Token string(char closingChar) {
+    while (peek() != closingChar && !isAtEnd()) {
         if (peek() == '\n') scanner.line++;
         advance();
     }
@@ -248,7 +242,8 @@ Token scanToken() {
             return makeToken(match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
 
         case '"':
-            return string();
+        case '\'':
+            return string(c);
     }
 
     return errorToken("Unexpected character.");
