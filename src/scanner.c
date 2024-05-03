@@ -225,6 +225,7 @@ Token scanToken() {
         case ';': return makeToken(TOKEN_SEMICOLON);
         case ',': return makeToken(TOKEN_COMMA);
         case '=': return makeToken(TOKEN_EQUAL);
+        case '.': return makeToken(TOKEN_DOT);
 
         case '+':
             return makeToken(match('+') ? TOKEN_PLUS_PLUS : 
@@ -240,8 +241,6 @@ Token scanToken() {
             return makeToken(match('=') ? TOKEN_CARET_EQUAL : TOKEN_CARET);
         case '%':
             return makeToken(match('=') ? TOKEN_PERCENT_EQUAL : TOKEN_PERCENT);
-        case '.':
-            return makeToken(match('.') ? TOKEN_DOT_DOT : TOKEN_DOT);
         case '!':
             return makeToken(match('=') ? TOKEN_BANG_EQUAL : TOKEN_BANG);
         case ':':

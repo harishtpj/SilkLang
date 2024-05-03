@@ -390,6 +390,46 @@ static void namedVariable(Token name, bool canAssign) {
     if (canAssign && match(TOKEN_COLON_EQUAL)) {
         expression();
         emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_PLUS_EQUAL)) {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_ADD);
+        emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_MINUS_EQUAL)) {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_SUB);
+        emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_STAR_EQUAL)) {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_MUL);
+        emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_SLASH_EQUAL)) {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_DIV);
+        emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_PERCENT_EQUAL)) {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_MOD);
+        emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_CARET_EQUAL)) {
+        emitBytes(getOp, (uint8_t)arg);
+        expression();
+        emitByte(OP_POW);
+        emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_PLUS_PLUS)) {
+        emitBytes(getOp, (uint8_t)arg);
+        emitConstant(NUMBER_VAL(1));
+        emitByte(OP_ADD);
+        emitBytes(setOp, (uint8_t)arg);
+    } else if (canAssign && match(TOKEN_MINUS_MINUS)) {
+        emitBytes(getOp, (uint8_t)arg);
+        emitConstant(NUMBER_VAL(1));
+        emitByte(OP_SUB);
+        emitBytes(setOp, (uint8_t)arg);
     } else {
         emitBytes(getOp, (uint8_t)arg);
     }

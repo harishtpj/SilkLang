@@ -80,3 +80,5 @@ Log:
   - Added support for ternary if Expression operator
   - Added support for both single and double quotes
   - Added while and for loops
+  - Added support for break and continue statements
+  - Added support for augumented assignment operators and postfix increment/decrement operators

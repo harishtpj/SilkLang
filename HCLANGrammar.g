@@ -42,7 +42,8 @@ block           : '{' declaration* '}' ;
 
 expression      : assignment ;
 
-assignment      : ( call '.' )? IDENTIFIER ':=' assignment
+assignment      : ( call '.' )? IDENTIFIER (((':=' | '+=' | '-=' | '*=' | '/=' |
+                                            '%=' | '^=') assignment)* | ('++' | '--'))
                 | if_expr ;
 
 if_expr         : logic_or ( 'if' logic_or 'else' logic_or)*;
