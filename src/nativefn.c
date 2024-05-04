@@ -118,7 +118,7 @@ Value inputNative(int argCount, Value* args) {
     }
     // End of code for string input
 
-    ObjStr* result = takeString(buffer, n+1);
+    ObjStr* result = takeString(buffer, n);
     return OBJ_VAL(result);
 }
 
@@ -150,7 +150,52 @@ Value intNative(int argCount, Value* args) {
             return ERR_VAL;
         }
         return NUMBER_VAL((int)AS_NUMBER(args[0]));
+    } else {
+        runtimeError("Argument must be a string or number.");
+        return ERR_VAL;
     }
+}
 
-    
+Value floatNative(int argCount, Value* args) {
+    if (argCount != 1 ) {
+        runtimeError("Expected 1 argument but got %d.", argCount);
+        return ERR_VAL;
+    }
+    if (IS_STR(args[0])) {
+        char *str = AS_CSTR(args[0]);
+        char *endptr;
+        double number = strtod(str, &endptr);
+        if ((number == 0) && (str == endptr) && (errno != EINVAL)) {
+            runtimeError("could not convert string to float:: %s", str);
+            return ERR_VAL;
+        } else if (errno == ERANGE) {
+            runtimeError("Error: Input value out of float range.");
+            return ERR_VAL;
+        } else {
+            return NUMBER_VAL(number);
+        }
+    } else if (IS_NUMBER(args[0])) {
+        return NUMBER_VAL((double)AS_NUMBER(args[0]));
+    } else {
+        runtimeError("Argument must be a string or number.");
+        return ERR_VAL;
+    }
+}
+
+Value strNative(int argCount, Value* args) {
+    if (argCount != 1) {
+        runtimeError("Expected 1 argument but got %d.", argCount);
+        return ERR_VAL;
+    }
+    char* strRep = valueToString(args[0]);
+    return OBJ_VAL(takeString(strRep, strlen(strRep)));
+}
+
+Value typeNative(int argCount, Value* args) {
+    if (argCount != 1) {
+        runtimeError("Expected 1 argument but got %d.", argCount);
+        return ERR_VAL;
+    }
+    char* strType = valueToType(args[0]);
+    return OBJ_VAL(takeString(strType, strlen(strType)));
 }

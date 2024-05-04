@@ -21,5 +21,8 @@ Value inputNative(int argCount, Value* args);
 
 // Simple type conversions
 Value intNative(int argCount, Value* args);
+Value floatNative(int argCount, Value* args);
+Value strNative(int argCount, Value* args);
+Value typeNative(int argCount, Value* args);
 
 #endif

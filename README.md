@@ -18,8 +18,8 @@ To run your first program, fire up you favourite text editor and copy the follow
 ```silk
 # A Simple Hello, World! program
 
-println "Hello, world!";
-println "HCLAN is interesting!";
+print "Hello, world!";
+print "HCLAN is interesting!";
 ```
 
 Then open a new terminal in the same directory as the file and run:

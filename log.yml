@@ -90,4 +90,6 @@ Level: [23]
 Log:
   - Added support for function declarations and function calls
   - Added support for Native functions
-  - Added native functions like input, chr, ord, clock, exit, int
+  - Added native functions like
+      - [input, chr, ord, clock, exit, int, float, str, type]
+  - Added multi-parameter support for print statement

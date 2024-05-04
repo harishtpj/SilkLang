@@ -97,3 +97,55 @@ void printObject(Value value) {
             break;
     }
 }
+
+char* objectToString(Value value) {
+    char* result = NULL;
+    switch (OBJ_TYPE(value)) {
+        case OBJ_STR: {
+            // Allocate memory for the string representation of the string object
+            result = strdup(AS_CSTR(value));
+            break;
+        }
+
+        case OBJ_FUNCTION: {
+            // Get the function name and create a string representation
+            ObjFunction* function = AS_FUNCTION(value);
+            if (function->name == NULL) {
+                result = strdup("<TopLvlScript>");
+            } else {
+                // Allocate memory for the function name string
+                char* functionName = ALLOCATE(char, (strlen(function->name->chars) + 6)); // 6 for "<fun >"
+                sprintf(functionName, "<fun %s>", function->name->chars);
+                result = functionName;
+            }
+            break;
+        }
+
+        case OBJ_NATIVE:
+            result = strdup("<Native fun>");
+            break;
+    }
+
+    return result;
+}
+
+char* objectToType(Value value) {
+    char* result = NULL;
+    switch (OBJ_TYPE(value)) {
+        case OBJ_STR: {
+            result = strdup("str");
+            break;
+        }
+
+        case OBJ_FUNCTION: {
+            result = strdup("function");
+            break;
+        }
+
+        case OBJ_NATIVE:
+            result = strdup("nativefn");
+            break;
+    }
+
+    return result;
+}

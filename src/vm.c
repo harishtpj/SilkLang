@@ -62,6 +62,9 @@ void initVM() {
     defineNative("input", inputNative);
 
     defineNative("int", intNative);
+    defineNative("float", floatNative);
+    defineNative("str", strNative);
+    defineNative("type", typeNative);
 }
 
 void freeVM() {

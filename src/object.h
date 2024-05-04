@@ -54,6 +54,8 @@ ObjNative* newNative(NativeFn function);
 ObjStr* takeString(char* chars, int length);
 ObjStr* copyString(const char* chars, int length);
 void printObject(Value value);
+char* objectToString(Value value);
+char* objectToType(Value value);
 
 static inline bool isObjType(Value value, ObjType type) {
   return IS_OBJ(value) && AS_OBJ(value)->type == type;

@@ -29,6 +29,56 @@ void freeValueArray(ValueArray* array) {
     initValueArray(array);
 }
 
+char* valueToString(Value value) {
+    char* result = NULL;
+    switch (value.type) {
+        case VAL_BOOL:
+            result = AS_BOOL(value) ? strdup("true") : strdup("false");
+            break;
+        case VAL_NULL:
+            result = strdup("null");
+            break;
+        case VAL_NUMBER: {
+            // Convert the number to a string and allocate memory for it
+            char* numberString = ALLOCATE(char, 128);
+            sprintf(numberString, "%g", AS_NUMBER(value));
+            result = numberString;
+            break;
+        }
+        case VAL_OBJ: {
+            result = objectToString(value);
+            break;
+        }
+    }
+    return result;
+}
+
+char* valueToType(Value value) {
+    char* result = NULL;
+    switch (value.type) {
+        case VAL_BOOL:
+            result = strdup("bool");
+            break;
+        case VAL_NULL:
+            result = strdup("null");
+            break;
+        case VAL_NUMBER: {
+            double num = AS_NUMBER(value);
+            if (num == (double)(int)num) {
+                result = strdup("int");
+            } else {
+                result = strdup("float");
+            }
+            break;
+        }
+        case VAL_OBJ: {
+            result = objectToType(value);
+            break;
+        }
+    }
+    return result;
+}
+
 void printValue(Value value) {
     switch (value.type) {
         case VAL_BOOL:

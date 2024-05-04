@@ -676,9 +676,13 @@ static void ifStatement() {
 }
 
 static void printStatement() {
-    expression();
+    do {
+        expression();
+        emitConstant(OBJ_VAL(takeString(strdup(" "), 1)));
+        emitByte(OP_ADD);
+        emitByte(OP_PRINT);
+    } while (match(TOKEN_COMMA));
     consume(TOKEN_SEMICOLON, "Expect ';' after value.");
-    emitByte(OP_PRINT);
     emitByte(OP_PRINT_NL);
 }
 
