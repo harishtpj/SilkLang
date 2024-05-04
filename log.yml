@@ -82,3 +82,12 @@ Log:
   - Added while and for loops
   - Added support for break and continue statements
   - Added support for augumented assignment operators and postfix increment/decrement operators
+
+---
+Day: 7
+Date: 07-05-2024
+Level: [23]
+Log:
+  - Added support for function declarations and function calls
+  - Added support for Native functions
+  - Added native functions like input, chr, ord, clock, exit, int
