@@ -18,6 +18,7 @@ Value chrNative(int argCount, Value* args);
 Value ordNative(int argCount, Value* args);
 Value exitNative(int argCount, Value* args);
 Value inputNative(int argCount, Value* args);
+Value fmtNative(int argCount, Value* args);
 
 // Simple type conversions
 Value intNative(int argCount, Value* args);

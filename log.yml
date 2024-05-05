@@ -101,4 +101,6 @@ Level: [25]
 Log:
   - Added expression printing feature for REPL mode
   - Added newline supresssion for print statement
+  - Added fmt native function
+  - Added support for closures
   

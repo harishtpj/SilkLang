@@ -199,3 +199,36 @@ Value typeNative(int argCount, Value* args) {
     char* strType = valueToType(args[0]);
     return OBJ_VAL(takeString(strType, strlen(strType)));
 }
+
+Value fmtNative(int argCount, Value* args) {
+    char* format = AS_CSTR(args[0]);
+    size_t list_len = argCount - 1;
+    size_t result_len = strlen(format);
+    char *result = malloc(result_len + 1);
+    size_t result_i = 0;
+    size_t list_i = 0;
+
+    for (size_t i = 0; i < result_len; ++i) {
+        if (format[i] == '#') {
+            if (i + 1 < result_len && format[i + 1] == '#') {
+                result[result_i++] = '#';
+                i++; // Skip the next character (second '#')
+            } else if (list_i < list_len) {
+                char* strObj = valueToString(args[list_i + 1]);
+                size_t str_len = strlen(strObj);
+                result_len += str_len - 1;  // Adjust for replacing '#'
+                result = realloc(result, result_len + 1);
+                memcpy(result + result_i, strObj, str_len);
+                result_i += str_len;
+                list_i++;
+            } else {
+                result[result_i++] = format[i];
+            }
+        } else {
+            result[result_i++] = format[i];
+        }
+    }
+
+    result[result_i] = '\0';
+    return OBJ_VAL(takeString(result, result_len));
+}
