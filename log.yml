@@ -66,7 +66,7 @@ Log:
 ---
 Day: 5
 Date: 01-05-2024
-Level: [21.5]
+Level: [22]
 Log:
   - Added support for local variables and block statements
   - IMPORTANT: removed support for println statement; use print statement instead
@@ -75,7 +75,7 @@ Log:
 ---
 Day: 6
 Date: 03-05-2024
-Level: [22]
+Level: [23]
 Log:
   - Added support for ternary if Expression operator
   - Added support for both single and double quotes
@@ -85,11 +85,20 @@ Log:
 
 ---
 Day: 7
-Date: 07-05-2024
-Level: [23]
+Date: 04-05-2024
+Level: [24]
 Log:
   - Added support for function declarations and function calls
   - Added support for Native functions
   - Added native functions like
       - [input, chr, ord, clock, exit, int, float, str, type]
   - Added multi-parameter support for print statement
+
+---
+Day: 8
+Date: 05-05-2024
+Level: [25]
+Log:
+  - Added expression printing feature for REPL mode
+  - Added newline supresssion for print statement
+  

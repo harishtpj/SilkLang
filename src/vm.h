@@ -36,7 +36,7 @@ extern HVM vm;
 
 void initVM();
 void freeVM();
-InterpretResult interpret(const char* source);
+InterpretResult interpret(const char* source, bool isREPL);
 void push(Value value);
 Value pop();
 

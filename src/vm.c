@@ -79,6 +79,11 @@ void push(Value value) {
 }
 
 Value pop() {
+    if (vm.stackTop == vm.stack) {
+        runtimeError("Stack is empty. Nothing to Pop.");
+        return ERR_VAL;
+    }
+
     vm.stackTop--;
     return *vm.stackTop;
 }
@@ -388,8 +393,8 @@ static InterpretResult run() {
 #undef BINARY_FUN
 }
 
-InterpretResult interpret(const char* source) {
-    ObjFunction* function = compile(source);
+InterpretResult interpret(const char* source, bool isREPL) {
+    ObjFunction* function = compile(source, isREPL);
     if (function == NULL) return INTERPRET_COMPILE_ERROR;
 
     push(OBJ_VAL(function));

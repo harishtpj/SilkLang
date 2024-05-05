@@ -65,6 +65,7 @@ typedef struct Compiler {
 
 Parser parser;
 Compiler* current = NULL;
+bool isREPLMode = false;
 
 static Chunk* currentChunk() {
   return &current->function->chunk;
@@ -652,8 +653,14 @@ static void varDeclaration() {
 
 static void expressionStatement() {
     expression();
-    consume(TOKEN_SEMICOLON, "Expect ';' after expression.");
-    emitByte(OP_POP);
+    if (isREPLMode) {
+        emitConstant(OBJ_VAL(takeString(strdup(":= "), 3)));
+        emitByte(OP_PRINT);
+        emitBytes(OP_PRINT, OP_PRINT_NL);
+    } else {
+        consume(TOKEN_SEMICOLON, "Expect ';' after expression.");
+        emitByte(OP_POP);
+    }
 }
 
 static void ifStatement() {
@@ -676,14 +683,19 @@ static void ifStatement() {
 }
 
 static void printStatement() {
+    bool printNewline = true;
     do {
+        if (check(TOKEN_SEMICOLON)) {
+            printNewline = false;
+            break;
+        }
         expression();
         emitConstant(OBJ_VAL(takeString(strdup(" "), 1)));
         emitByte(OP_ADD);
         emitByte(OP_PRINT);
     } while (match(TOKEN_COMMA));
     consume(TOKEN_SEMICOLON, "Expect ';' after value.");
-    emitByte(OP_PRINT_NL);
+    if (printNewline) emitByte(OP_PRINT_NL);
 }
 
 static void returnStatement() {
@@ -844,7 +856,8 @@ static void statement() {
     }
 }
 
-ObjFunction* compile(const char* source) {
+ObjFunction* compile(const char* source, bool isREPL) {
+    isREPLMode = isREPL;
     initScanner(source);
     Compiler compiler;
     initCompiler(&compiler, TYPE_SCRIPT);
