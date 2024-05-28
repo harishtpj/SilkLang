@@ -14,6 +14,7 @@
 #define IS_INSTANCE(value)     isObjType(value, OBJ_INSTANCE)
 #define IS_NATIVE(value)       isObjType(value, OBJ_NATIVE)
 #define IS_STR(value)          isObjType(value, OBJ_STR)
+#define IS_BOUND_METHOD(value) isObjType(value, OBJ_BOUND_METHOD)
 
 #define AS_CLASS(value)        ((ObjClass*)AS_OBJ(value))
 #define AS_CLOSURE(value)      ((ObjClosure*)AS_OBJ(value))
@@ -23,6 +24,7 @@
     (((ObjNative*)AS_OBJ(value))->function)
 #define AS_STR(value)       ((ObjStr*)AS_OBJ(value))
 #define AS_CSTR(value)      (((ObjStr*)AS_OBJ(value))->chars)
+#define AS_BOUND_METHOD(value) ((ObjBoundMethod*)AS_OBJ(value))
 
 typedef enum {
     OBJ_CLASS,
@@ -32,6 +34,7 @@ typedef enum {
     OBJ_STR,
     OBJ_UPVALUE,
     OBJ_INSTANCE,
+    OBJ_BOUND_METHOD,
 } ObjType;
 
 struct Obj {
@@ -79,6 +82,7 @@ typedef struct {
 typedef struct {
   Obj obj;
   ObjStr* name;
+  Table methods;
 } ObjClass;
 
 typedef struct {
@@ -87,6 +91,13 @@ typedef struct {
   Table fields; 
 } ObjInstance;
 
+typedef struct {
+  Obj obj;
+  Value receiver;
+  ObjClosure* method;
+} ObjBoundMethod;
+
+ObjBoundMethod* newBoundMethod(Value receiver, ObjClosure* method);
 ObjClass* newClass(ObjStr* name);
 ObjClosure* newClosure(ObjFunction* function);
 ObjFunction* newFunction();

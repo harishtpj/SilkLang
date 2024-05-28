@@ -107,8 +107,9 @@ Log:
 ---
 Day: 9
 Date: 28-05-2024
-Level: [26, 27]
+Level: [26, 27, 28]
 Log:
   - Added GC support
   - Fixed bug in print statement.
   - Added Minimal Class support
+  - Added support for method calls

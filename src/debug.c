@@ -22,6 +22,16 @@ static int constantInstruction(const char* name, Chunk* chunk,
     return offset + 2;
 }
 
+static int invokeInstruction(const char* name, Chunk* chunk,
+                                int offset) {
+  uint8_t constant = chunk->code[offset + 1];
+  uint8_t argCount = chunk->code[offset + 2];
+  printf("%-16s (%d args) %4d '", name, argCount, constant);
+  printValue(chunk->consts.values[constant]);
+  printf("'\n");
+  return offset + 3;
+}
+
 static int lConstInstruction(const char* name, Chunk* chunk, 
                              int offset) {
     uint32_t constant = chunk->code[offset + 1] |
@@ -166,6 +176,12 @@ int disassembleInstruction(Chunk* chunk, int offset) {
             
         case OP_SET_PROPERTY:
             return constantInstruction("OP_SET_PROPERTY", chunk, offset);
+        
+        case OP_METHOD:
+            return constantInstruction("OP_METHOD", chunk, offset);
+        
+        case OP_INVOKE:
+            return invokeInstruction("OP_INVOKE", chunk, offset);
         
         case OP_CLOSURE: {
             offset++;
