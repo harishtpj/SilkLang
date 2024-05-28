@@ -27,6 +27,12 @@ static Obj* allocateObject(size_t size, ObjType type) {
     return object;
 }
 
+ObjClass* newClass(ObjStr* name) {
+    ObjClass* klass = ALLOCATE_OBJ(ObjClass, OBJ_CLASS);
+    klass->name = name; 
+    return klass;
+}
+
 ObjClosure* newClosure(ObjFunction* function) {
     ObjUpvalue** upvalues = ALLOCATE(ObjUpvalue*,function->upvalueCount);
     for (int i = 0; i < function->upvalueCount; i++) {
@@ -47,6 +53,13 @@ ObjFunction* newFunction() {
     function->name = NULL;
     initChunk(&function->chunk);
     return function;
+}
+
+ObjInstance* newInstance(ObjClass* klass) {
+    ObjInstance* instance = ALLOCATE_OBJ(ObjInstance, OBJ_INSTANCE);
+    instance->klass = klass;
+    initTable(&instance->fields);
+    return instance;
 }
 
 ObjNative* newNative(NativeFn function) {
@@ -104,6 +117,7 @@ ObjUpvalue* newUpvalue(Value* slot) {
   return upvalue;
 }
 
+
 static void printFunction(ObjFunction* function) {
     if (function->name == NULL) {
         printf("<TopLvlScript>");
@@ -122,6 +136,11 @@ void printObject(Value value) {
             printFunction(AS_FUNCTION(value));
             break;
         
+        case OBJ_INSTANCE:
+            printf("%s instance",
+                AS_INSTANCE(value)->klass->name->chars);
+            break;
+        
         case OBJ_NATIVE:
             printf("<Native fun>");
             break;
@@ -132,6 +151,10 @@ void printObject(Value value) {
         
         case OBJ_UPVALUE:
             printf("upvalue");
+            break;
+        
+         case OBJ_CLASS:
+            printf("%s", AS_CLASS(value)->name->chars);
             break;
     }
 }
@@ -159,6 +182,14 @@ char* objectToString(Value value) {
             break;
         }
 
+        case OBJ_INSTANCE: {
+            ObjInstance* inst = AS_INSTANCE(value);
+            char* instName = ALLOCATE(char, (strlen(inst->klass->name->chars) +  10));
+            sprintf(instName, "%s instance", inst->klass->name->chars);
+            result = instName;
+            break;
+        }
+
         case OBJ_NATIVE:
             result = strdup("<Native fun>");
             break;
@@ -169,6 +200,10 @@ char* objectToString(Value value) {
         
         case OBJ_UPVALUE:
             printf("upvalue");
+            break;
+        
+         case OBJ_CLASS:
+            result = strdup(AS_CLASS(value)->name->chars);
             break;
     }
 
@@ -195,6 +230,14 @@ char* objectToType(Value value) {
         
         case OBJ_UPVALUE:
             result = strdup("upvalue");
+            break;
+        
+        case OBJ_CLASS:
+            result = strdup("class");
+            break;
+        
+        case OBJ_INSTANCE:
+            result = strdup("class instance object");
             break;
     }
 

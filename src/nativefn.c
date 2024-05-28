@@ -118,7 +118,8 @@ Value inputNative(int argCount, Value* args) {
     }
     // End of code for string input
 
-    ObjStr* result = takeString(buffer, n);
+    ObjStr* result = takeString(strdup(buffer), n);
+    FREE(char, buffer);
     return OBJ_VAL(result);
 }
 

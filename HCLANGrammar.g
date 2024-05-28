@@ -7,7 +7,7 @@ declaration     : classDecl
                 | varDecl
                 | statement ;
     
-classDecl       : 'class' IDENTIFIER ( '{' IDENTIFIER )?
+classDecl       : 'class' IDENTIFIER ( ':' IDENTIFIER )?
                   '{' function* '}' ;
 funDecl         : 'fun' function ;
 varDecl         : 'let' IDENTIFIER ( ':=' expression )? ';' ;
