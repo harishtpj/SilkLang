@@ -103,4 +103,11 @@ Log:
   - Added newline supresssion for print statement
   - Added fmt native function
   - Added support for closures
-  
+
+---
+Day: 9
+Date: 28-05-2024
+Level: [26]
+Log:
+  - Added GC support
+  - Fixed bug in print statement.

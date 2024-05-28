@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "memory.h"
 #include "common.h"
 #include "compiler.h"
 #include "scanner.h"
@@ -748,8 +749,8 @@ static void printStatement() {
             break;
         }
         expression();
+        emitByte(OP_PRINT);
         emitConstant(OBJ_VAL(takeString(strdup(" "), 1)));
-        emitByte(OP_ADD);
         emitByte(OP_PRINT);
     } while (match(TOKEN_COMMA));
     consume(TOKEN_SEMICOLON, "Expect ';' after value.");
@@ -931,4 +932,12 @@ ObjFunction* compile(const char* source, bool isREPL) {
 
     ObjFunction* function = endCompiler();
     return parser.hadError ? NULL : function;
+}
+
+void markCompilerRoots() {
+    Compiler* compiler = current;
+    while (compiler != NULL) {
+        markObject((Obj*)compiler->function);
+        compiler = compiler->enclosing;
+    }
 }

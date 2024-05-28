@@ -3,6 +3,7 @@
 
 #include "chunk.h"
 #include "memory.h"
+#include "vm.h"
 
 void initChunk(Chunk* chunk) {
     chunk->capacity = 0;
@@ -35,7 +36,9 @@ void writeChunk(Chunk* chunk, uint8_t byte, int line) {
 }
 
 int addConstant(Chunk* chunk, Value value) {
+    push(value);
     writeValueArray(&chunk->consts, value);
+    pop();
     return chunk->consts.count - 1;
 }
 

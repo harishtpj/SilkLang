@@ -52,6 +52,12 @@ static void defineNative(const char* name, NativeFn function) {
 void initVM() {
     resetStack();
     vm.objects = NULL;
+    vm.bytesAllocated = 0;
+    vm.nextGC = 1024 * 1024;
+
+    vm.grayCount = 0;
+    vm.grayCapacity = 0;
+    vm.grayStack = NULL;
 
     initTable(&vm.globals);
     initTable(&vm.strings);
@@ -174,8 +180,8 @@ static bool isFalsey(Value value) {
 }
 
 static void concatenate() {
-    ObjStr* b = AS_STR(pop());
-    ObjStr* a = AS_STR(pop());
+    ObjStr* b = AS_STR(peek(0));
+    ObjStr* a = AS_STR(peek(1));
 
     int length = a->length + b->length;
     char* chars = ALLOCATE(char, length + 1);
@@ -184,6 +190,8 @@ static void concatenate() {
     chars[length] = '\0';
 
     ObjStr* result = takeString(chars, length);
+    pop();
+    pop();
     push(OBJ_VAL(result));
 }
 
@@ -296,19 +304,22 @@ static InterpretResult run() {
                 push(NUMBER_VAL(a * b));
 
             } else if (IS_STR(peek(0)) && IS_NUMBER(peek(1))) {
-                ObjStr* b = AS_STR(pop());
-                int a = AS_NUMBER(pop());
+                ObjStr* b = AS_STR(peek(0));
+                int a = AS_NUMBER(peek(1));
 
                 int length = b->length * a;
                 ObjStr* result = takeString(repeatStr(b->chars, a), length);
+                pop();
+                pop();
                 push(OBJ_VAL(result));
 
             } else if (IS_NUMBER(peek(0)) && IS_STR(peek(1))) {
                 int b = AS_NUMBER(pop());
-                ObjStr* a = AS_STR(pop());
+                ObjStr* a = AS_STR(peek(0));
 
                 int length = a->length * b;
                 ObjStr* result = takeString(repeatStr(a->chars, b), length);
+                pop();
                 push(OBJ_VAL(result));
 
             } else {
